@@ -1,0 +1,24 @@
+.global main
+.data
+	BCDNUM: .ascii "92529679"
+	NUMBER: .word 0x00000000
+.text
+
+main: 
+	//LOAD INPUT AND INITIALIZE
+	LDR R1,=BCDNUM
+	LDR R0,=NUMBER
+	MOV R3,#10
+	MOV R6,#8
+	
+	//ITERATE FOR 8 BITS
+	ITR:
+		ADD R2,R2,#1
+		LDRB R7,[R1],#1
+		SUB R7, R7, #'0'
+		MLA R4,R4,R3,R7
+		CMP R2,R6
+			BNE ITR
+	
+	//RESULT IS STORED AT R4
+	STR R4,[R0]
